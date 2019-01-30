@@ -9,7 +9,7 @@
 <p>到这里就应该知道,OpenCV是一个通过JNI调用的有C/C++写的代码库，并不是由JAVA代码完成的。我们可以通过下面的链接进行下载OpenCV4Android：</p>
 <p><a href="https://opencv.org/releases.html" target="_blank" rel="noopener">https://opencv.org/releases.html﻿</a></p>
 <p>下载完成之后解压文件，解压所得文件夹中有SDK文件夹，SDK文件夹结构大概为下图：</p>
-<p><img src="//images/opencv-start-1.png" alt="解压后的文件结构图"></p>
+<p><img src="https://islet.blog/images/opencv-start-1.png" alt="解压后的文件结构图"></p>
 <p>其中，etc文件夹下为训练好的LBP和HAAR数据；java下是android sdk相关文件；native里面则是基于C/C++编译好的OpenCV Android平台支持的本地库文件，JNI层开发所需要的头文件及cmake文件，其中库文件大多数是以.a和.so后缀的文件。</p>
 <p>在和SDK统同级的文件中有一个samples文件夹，这个文件为OpenCV的一些使用提供了Android的例子，可以参考一下。注意：需要安装NDK，如果没有安装系统会提示你安装，在安装NDK时会有链接reset或者链接不到的问题，请自行百度解决，不再赘述。</p>
 <p>最后需要知道的是，OpenCV4Android（OpenCV Android）版本和OpenCV对应发布的版本是完全一样的，只是调用需要切换成Java语言。</p>
