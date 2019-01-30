@@ -1,0 +1,30 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 初始OpenCV · 孤岛博客</title><meta name="description" content="初始OpenCV - 张志豪"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/logo.png"><link rel="stylesheet" href="/css/style.css"><link rel="search" type="application/opensearchdescription+xml" href="https://islet.blog/atom.xml" title="孤岛博客"></head><body><div class="wrap"><header><h1 class="title">孤岛博客</h1><ul class="nav nav-list"><li class="nav-list-item"><a class="nav-list-link" href="/" target="_self">首页</a></li><li class="nav-list-item"><a class="nav-list-link" href="/archives/" target="_self">归档</a></li><li class="nav-list-item"><a class="nav-list-link" href="https://zhangzhihao.site" target="_blank">关于我</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">初始OpenCV</h1><div class="post-info">2019年1月30日</div><div class="post-content"><p>之前看了一下OpenCV的书，但是一直没有笔记。这次来简单写一下自己学到的东西。看书的时候面向对象有“想自我提升的中高级程序员”，好吧，那我就暂时把自己定位高级程序员吧。</p>
+<a id="more"></a>
+<h2 id="认识OpenCV"><a href="#认识OpenCV" class="headerlink" title="认识OpenCV"></a>认识OpenCV</h2><p>简单来说，OpenCV就是个库。</p>
+<p>OpenCV的意思是计算机开源视觉库(Open Source Computer Library)，我们常说的OpenCV分为正式发布版本和扩展模块，现在发布的OpenCV正式版本中核心模块大概有：</p>
+<p>二维与三维特征工具箱、运动估算、人脸识别、姿势识别、人机交互、运动理解、对象检测 、移动机器人 、分割与识别、视频分析、运动跟踪、图像处理、深度神经网络</p>
+<blockquote>
+<p>注意：在核心模块中的持久性（在XML，YAML或JSON中存储和加载结构化数据）已在C ++中完全重新实现，并且也丢失了C API。</p>
+</blockquote>
+<p>到这里就应该知道,OpenCV是一个通过JNI调用的有C/C++写的代码库，并不是由JAVA代码完成的。我们可以通过下面的链接进行下载OpenCV4Android：</p>
+<p><a href="https://opencv.org/releases.html" target="_blank" rel="noopener">https://opencv.org/releases.html﻿</a></p>
+<p>下载完成之后解压文件，解压所得文件夹中有SDK文件夹，SDK文件夹结构大概为下图：</p>
+<p><img src="../images/opencv-start-1.png" alt="解压后的文件结构图"></p>
+<p>其中，etc文件夹下为训练好的LBP和HAAR数据；java下是android sdk相关文件；native里面则是基于C/C++编译好的OpenCV Android平台支持的本地库文件，JNI层开发所需要的头文件及cmake文件，其中库文件大多数是以.a和.so后缀的文件。</p>
+<p>在和SDK统同级的文件中有一个samples文件夹，这个文件为OpenCV的一些使用提供了Android的例子，可以参考一下。注意：需要安装NDK，如果没有安装系统会提示你安装，在安装NDK时会有链接reset或者链接不到的问题，请自行百度解决，不再赘述。</p>
+<p>最后需要知道的是，OpenCV4Android（OpenCV Android）版本和OpenCV对应发布的版本是完全一样的，只是调用需要切换成Java语言。</p>
+<h3 id="开始使用OpenCV"><a href="#开始使用OpenCV" class="headerlink" title="开始使用OpenCV"></a>开始使用OpenCV</h3><p>使用方法和我们平常使用其他SDK是一样的：</p>
+<ul>
+<li>选择File - New - Import Module ，然后选择之前解压出来的SDK/JAVA文件夹，系统会自动显示OpenCV版本信息</li>
+<li>打开Project Structure添加依赖</li>
+<li>复制native/libs下的所有文件到app/libs下，如果找不到app/libs文件夹，请将Android视图切换为Project视图。然后删除所有.a后缀的文件。</li>
+<li>minSDKVersion改为14</li>
+<li>在module:app对应的build.gradle脚本中添加以下内容</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">task nativeLibsToJar(type: Jar, description:'create a jar archive of the native libs') &#123;</span><br><span class="line"> destinationDir file("$buildDir/native­libs")</span><br><span class="line"> baseName 'native­libs'</span><br><span class="line"> from fileTree(dir: 'libs', include: '**/*.so')</span><br><span class="line"> into 'lib/'</span><br><span class="line">&#125;</span><br><span class="line">tasks.withType(JavaCompile) &#123;</span><br><span class="line"> compileTask ­&gt; compileTask.dependsOn(nativeLibsToJar)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>然后在编译片段添加：</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">implementation fileTree(dir: "$buildDir/native-libs", include: 'native-libs.jar')</span><br></pre></td></tr></table></figure>
+<p>至此导入结束，下篇文章为测试是否导入成功和其简单的应用。 </p>
+</div></article></div></main><footer><div class="paginator"></div><div class="copyright"><p>© 2019 孤岛博客</p></div></footer></div></body></html>
